@@ -76,6 +76,20 @@
   .openme div{display:flex;flex-direction:column;gap:6px;text-align:left}
   .openme span{color:var(--muted);font-size:clamp(1.05rem,1.8vw,1.35rem)}
   .openme b{color:var(--paper);font-size:clamp(1.2rem,2.2vw,1.7rem);font-weight:600;letter-spacing:.01em}
+  .slide{padding-top:clamp(70px,10vh,96px)}
+  .timer{position:absolute;top:12px;right:16px;z-index:6;display:flex;align-items:center;gap:10px;
+    background:var(--panel);border:1px solid var(--edge);border-radius:6px;padding:6px 8px 6px 14px;
+    box-shadow:0 2px 10px rgba(0,0,0,.25)}
+  .timer .tlabel{color:var(--muted);font-size:clamp(.9rem,1.4vw,1.05rem);white-space:nowrap}
+  .timer .ttime{font-variant-numeric:tabular-nums;font-weight:600;color:var(--gold);
+    font-size:clamp(1.35rem,2.4vw,1.75rem);min-width:3.6em;text-align:right;letter-spacing:.02em}
+  .timer.over .ttime{color:#ff7b6b}
+  .timer.running .ttime{color:var(--paper)}
+  .timer.running.over .ttime{color:#ff7b6b}
+  .timer button{font:inherit;background:transparent;color:var(--paper);border:1px solid var(--edge);
+    border-radius:4px;width:2.2em;height:2.2em;font-size:1rem;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+  .timer button:focus-visible{outline:2px solid var(--celadon);outline-offset:2px}
+  #toolhost .toolbar{padding-right:clamp(300px,29vw,380px)}
   .lines{display:flex;flex-direction:column;gap:clamp(14px,3vh,34px);margin-top:10px}
   .lines p{margin:0;font-size:clamp(1.6rem,3.2vw,2.5rem);line-height:1.45}
   .blank{font:inherit;color:var(--gold);font-weight:600;background:transparent;
@@ -229,6 +243,13 @@
     <p class="q" style="margin-top:26px">이 단원 마무리에는 얼굴무늬 수막새를 복원합니다.</p>
   </section>
 
+  <div class="timer" id="timer" aria-live="off">
+    <span class="tlabel" id="tLabel">도입</span>
+    <span class="ttime" id="tTime">5:00</span>
+    <button id="tPlay" title="시작 / 멈춤 (T)" aria-label="시작 또는 멈춤">▶</button>
+    <button id="tReset" title="처음 시간으로" aria-label="처음 시간으로">↺</button>
+  </div>
+
   <div id="toolhost">
     <div class="toolbar"><h2 id="toolTitle"></h2><span id="toolHint"></span></div>
     <iframe class="tool" id="toolFrame" title="탐구 도구"></iframe>
@@ -263,12 +284,52 @@
     try{ frame.contentWindow.postMessage({tab: tab}, '*'); }catch(e){}
   }
 
+  /* 단계별 타이머: 슬라이드 번호(0부터) → 단계 */
+  var STAGES = [
+    {name:'도입',   min:5,  from:0, to:1},
+    {name:'활동 1', min:10, from:2, to:3},
+    {name:'활동 2', min:10, from:4, to:5},
+    {name:'활동 3', min:10, from:6, to:6},
+    {name:'정리',   min:10, from:7, to:99}
+  ];
+  STAGES.forEach(function(st){ st.left = st.min*60000; st.run = false; st.t0 = 0; });
+  var tBox = document.getElementById('timer'), tLabel = document.getElementById('tLabel'),
+      tTime = document.getElementById('tTime'), tPlay = document.getElementById('tPlay');
+  function stageOf(n){ for(var k=0;k<STAGES.length;k++){ if(n>=STAGES[k].from && n<=STAGES[k].to) return STAGES[k]; } return STAGES[STAGES.length-1]; }
+  function leftOf(st){ return st.run ? st.left - (Date.now() - st.t0) : st.left; }
+  function fmt(ms){
+    var neg = ms < 0, a = Math.abs(ms);
+    var sec = neg ? Math.floor(a/1000) : Math.ceil(a/1000);
+    var m = Math.floor(sec/60), r = sec%60;
+    return (neg ? '+' : '') + m + ':' + (r<10?'0':'') + r;
+  }
+  function drawTimer(){
+    var st = stageOf(i), ms = leftOf(st);
+    tLabel.textContent = st.name + ' · ' + st.min + '분';
+    tTime.textContent = fmt(ms);
+    tBox.classList.toggle('running', st.run);
+    tBox.classList.toggle('over', ms < 0);
+    tPlay.textContent = st.run ? '❚❚' : '▶';
+  }
+  function togglePlay(){
+    var st = stageOf(i);
+    if(st.run){ st.left = leftOf(st); st.run = false; }
+    else { st.t0 = Date.now(); st.run = true; }
+    drawTimer();
+  }
+  tPlay.addEventListener('click', togglePlay);
+  document.getElementById('tReset').addEventListener('click', function(){
+    var st = stageOf(i); st.left = st.min*60000; st.run = false; drawTimer();
+  });
+  setInterval(drawTimer, 250);
+
   var slides = document.querySelectorAll('.slide'), i = 0;
   document.getElementById('total').textContent = slides.length;
   function show(n){
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach(function(s, k){ s.classList.toggle('on', k === i); });
     document.getElementById('now').textContent = i + 1;
+    if(typeof drawTimer === 'function') drawTimer();
     var tab = slides[i].getAttribute('data-tool');
     if(tab !== null){
       document.getElementById('toolTitle').textContent = slides[i].getAttribute('data-title');
@@ -318,6 +379,7 @@
     if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){ show(i+1); e.preventDefault(); }
     if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ show(i-1); e.preventDefault(); }
     if(e.key === 'f' || e.key === 'F'){ toggleFS(); e.preventDefault(); }
+    if(e.key === 't' || e.key === 'T'){ togglePlay(); e.preventDefault(); }
   });
 
   show(0);
