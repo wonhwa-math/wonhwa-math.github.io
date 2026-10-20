@@ -96,6 +96,7 @@
     border:2px dashed var(--gold);border-radius:4px;padding:0 .5em;min-width:3.4em}
   .blank.done{border-style:solid;border-color:transparent;background:rgba(224,169,74,.16)}
   .blank.wide{display:block;width:100%;min-height:2.6em;text-align:left;padding:.5em .7em;line-height:1.45}
+  .blank.wide.done{white-space:pre-line}
   .tap{font-size:clamp(.95rem,1.5vw,1.15rem);color:var(--muted);margin:0 0 14px}
   .sent{background:var(--panel);border:1px solid var(--edge);border-left:4px solid var(--gold);
     padding:clamp(16px,2.4vw,28px);font-size:clamp(1.45rem,2.9vw,2.2rem);line-height:1.9;margin-top:4px}
@@ -235,12 +236,39 @@
 
   <section class="slide">
     <h2>정리하고 마치기</h2>
-    <p class="sub">크롬북을 정리하고 마칩니다.</p>
-    <ol class="num">
-      <li><span class="n">1</span><span>탐구 도구 창을 닫고 크롬북 덮개를 덮습니다.</span></li>
-      <li><span class="n">2</span><span>크롬북을 충전함의 <span class="fill">제 번호 자리</span>에 맞게 꽂습니다.</span></li>
-    </ol>
-    <p class="q" style="margin-top:26px">이 단원 마무리에는 얼굴무늬 수막새를 복원합니다.</p>
+    <div class="two">
+      <div style="word-break:keep-all">
+        <p class="sub">크롬북을 정리하고 마칩니다.</p>
+        <ol class="num">
+          <li><span class="n">1</span><span>탐구 도구 창을 닫고 크롬북 덮개를 덮습니다.</span></li>
+          <li><span class="n">2</span><span>크롬북을 충전함의 <span class="fill">제 번호 자리</span>에 맞게 꽂습니다.</span></li>
+        </ol>
+        <p class="q" style="margin-top:26px">이 단원 마무리에는 얼굴무늬 수막새를 복원합니다.</p>
+      </div>
+      <svg viewBox="0 0 300 312" role="img" aria-label="깨진 얼굴무늬 수막새" style="width:100%;max-height:62vh">
+        <defs>
+          <radialGradient id="tile" cx="45%" cy="40%" r="70%"><stop offset="0" stop-color="#b9a48c"/><stop offset=".7" stop-color="#8f7b66"/><stop offset="1" stop-color="#6e5d4d"/></radialGradient>
+          <clipPath id="tileclip"><path d="M 101.3 270.5 A 130 130 0 1 1 273.6 190.2 L 252.0 199.0 L 238.0 214.0 L 229.0 209.0 L 214.0 231.0 L 198.0 236.0 L 192.0 252.0 L 172.0 249.0 L 160.0 262.0 L 140.0 258.0 L 101.3 270.5 Z"/></clipPath>
+        </defs>
+        <path d="M 101.3 270.5 A 130 130 0 1 1 273.6 190.2 L 252.0 199.0 L 238.0 214.0 L 229.0 209.0 L 214.0 231.0 L 198.0 236.0 L 192.0 252.0 L 172.0 249.0 L 160.0 262.0 L 140.0 258.0 L 101.3 270.5 Z" fill="url(#tile)" stroke="#4d4035" stroke-width="2"/>
+        <g clip-path="url(#tileclip)" fill="none" stroke="#5a4a3c" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="150" cy="150" r="112" stroke-width="3" opacity=".7"/>
+          <circle cx="150" cy="150" r="121" stroke="#c8b49c" stroke-width="2" opacity=".5"/>
+          <path d="M 82 112 Q 108 92 134 108" stroke-width="4"/>
+          <path d="M 166 108 Q 192 92 218 112" stroke-width="4"/>
+          <path d="M 88 132 Q 110 116 132 132 Q 110 140 88 132 Z" fill="#4d4035" stroke-width="2.5"/>
+          <path d="M 168 132 Q 190 116 212 132 Q 190 140 168 132 Z" fill="#4d4035" stroke-width="2.5"/>
+          <path d="M 150 112 Q 146 140 140 160 Q 134 172 142 176 Q 150 180 158 176 Q 166 172 160 160 Q 154 140 150 112" fill="#a8937b" stroke-width="3"/>
+          <path d="M 96 168 Q 104 180 116 184" stroke-width="2.5" opacity=".6"/>
+          <path d="M 204 168 Q 196 180 184 184" stroke-width="2.5" opacity=".6"/>
+          <path d="M 110 196 Q 150 236 192 196" stroke-width="4.5"/>
+          <path d="M 120 200 Q 150 222 182 200" stroke-width="2" opacity=".5"/>
+          <path d="M 130 236 Q 150 244 170 236" stroke-width="2.5" opacity=".6"/>
+          <path d="M 70 78 L 92 96 L 88 108" stroke="#3f342b" stroke-width="1.6" opacity=".7"/>
+        </g>
+        <text x="150" y="304" text-anchor="middle" fill="#cfe3d8" font-size="15">얼굴무늬 수막새 (신라)</text>
+      </svg>
+    </div>
   </section>
 
   <div class="timer" id="timer" aria-live="off">
