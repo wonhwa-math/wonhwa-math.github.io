@@ -99,7 +99,7 @@
   .tap{font-size:clamp(.95rem,1.5vw,1.15rem);color:var(--muted);margin:0 0 14px}
   .sent{background:var(--panel);border:1px solid var(--edge);border-left:4px solid var(--gold);
     padding:clamp(16px,2.4vw,28px);font-size:clamp(1.45rem,2.9vw,2.2rem);line-height:1.9;margin-top:4px}
-</style>
+.blank{cursor:default !important}</style>
 </head>
 <body>
 <div class="deck">
@@ -192,8 +192,8 @@
   <section class="slide">
     <h2>① 어떤 방법으로 중심을 찾았는가</h2>
     <p class="tap">빈칸을 누르면 답이 나오고, 다시 누르면 가려집니다.</p>
-    <p class="sent">저는 조각의 테두리에 현을 <button class="blank" data-ans="3">&nbsp;&nbsp;</button> 개 긋고,
-      각 현의 <button class="blank" data-ans="수직이등분선">&nbsp;&nbsp;&nbsp;&nbsp;</button> 을 그어
+    <p class="sent">저는 조각의 테두리에 현을 <button class="blank">&nbsp;&nbsp;</button> 개 긋고,
+      각 현의 <button class="blank">&nbsp;&nbsp;&nbsp;&nbsp;</button> 을 그어
       만나는 점을 찾았습니다.</p>
   </section>
 
@@ -201,23 +201,23 @@
     <h2>② 그 점이 중심인 까닭은 무엇인가</h2>
     <p class="tap">빈칸을 누르면 답이 나오고, 다시 누르면 가려집니다.</p>
     <p class="sent">이 점이 원래 접시의 중심인 까닭은<br>
-      <button class="blank" data-ans="현의 수직이등분선이 그 원의 중심을 지나기">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+      <button class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
       때문입니다.</p>
   </section>
 
   <section class="slide">
     <h2>③ 반지름과 지름은 몇 cm인가</h2>
     <p class="tap">빈칸을 누르면 답이 나오고, 다시 누르면 가려집니다.</p>
-    <p class="sent">복원한 접시의 반지름은 <button class="blank" data-ans="12">&nbsp;&nbsp;</button> cm,
-      지름은 <button class="blank" data-ans="24">&nbsp;&nbsp;</button> cm입니다.</p>
+    <p class="sent">복원한 접시의 반지름은 <button class="blank">&nbsp;&nbsp;</button> cm,
+      지름은 <button class="blank">&nbsp;&nbsp;</button> cm입니다.</p>
   </section>
 
   <section class="slide">
     <h2>④ 관람선을 어떤 모양으로, 왜</h2>
     <p class="tap">빈칸을 누르면 답이 나오고, 다시 누르면 가려집니다.</p>
     <p class="sent">모든 관람객이 접시를 같은 각으로 보게 하려면,
-      관람선을 <button class="blank" data-ans="원">&nbsp;&nbsp;</button> 모양으로 그려야 합니다.<br>
-      그 까닭은 <button class="blank" data-ans="원에서 한 호에 대한 원주각의 크기는 모두 같기">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+      관람선을 <button class="blank">&nbsp;&nbsp;</button> 모양으로 그려야 합니다.<br>
+      그 까닭은 <button class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
       때문입니다.</p>
   </section>
 
@@ -225,11 +225,11 @@
     <h2>오늘 사용한 원의 성질</h2>
     <p class="tap">빈칸을 누르면 답이 나오고, 다시 누르면 가려집니다.</p>
     <div class="lines">
-      <p>현의 수직이등분선은 그 원의 <button class="blank" data-ans="중심">&nbsp;&nbsp;&nbsp;</button> 을 지납니다.</p>
-      <p>원에서 한 호에 대한 원주각의 크기는 모두 <button class="blank" data-ans="같습니다">&nbsp;&nbsp;&nbsp;</button>.</p>
+      <p>현의 수직이등분선은 그 원의 <button class="blank">&nbsp;&nbsp;&nbsp;</button> 을 지납니다.</p>
+      <p>원에서 한 호에 대한 원주각의 크기는 모두 <button class="blank">&nbsp;&nbsp;&nbsp;</button>.</p>
       <p class="q">조각 하나로 접시 전체를 알 수 있었던 까닭은 무엇일까요?</p>
-      <button class="blank wide" data-ans="평행하지 않은 현을 두 개 그으면 두 수직이등분선이 한 점에서 만나 그 점이 중심이 되고,&#10;중심과 반지름이 정해지면 원 전체가 하나로 정해지기 때문입니다."
-        style="font-size:clamp(1.35rem,2.5vw,1.95rem)">답 보기</button>
+      <button class="blank wide"
+        style="font-size:clamp(1.35rem,2.5vw,1.95rem)">선생님 화면에서 확인</button>
     </div>
   </section>
 
@@ -347,7 +347,7 @@
     b.addEventListener('click', function(){ show(i+1); });
   });
 
-  document.querySelectorAll('.blank').forEach(function(b){
+  document.querySelectorAll('.blank').forEach(function(b){ return;
     var hidden = b.innerHTML;
     b.addEventListener('click', function(){
       if(b.classList.contains('done')){
